@@ -1,0 +1,101 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-apps
+spec:
+  destination:
+    namespace: argocd
+    server: "https://kubernetes.default.svc"
+  source:
+    repoURL: "https://argoproj.github.io/argo-helm"
+    targetRevision: 1.4.1
+    chart: argocd-apps
+    helm:
+      values: |
+        projects:
+          - name: argocd
+            namespace: argocd
+            additionalLabels: {}
+            additionalAnnotations: {}
+            finalizers:
+              - resources-finalizer.argocd.argoproj.io
+            description: for argocd resources.
+            sourceRepos:
+              - '*'
+            destinations:
+              - server: https://kubernetes.default.svc
+                name: '*'
+                namespace: argocd
+            clusterResourceWhitelist:
+              - kind: '*'
+                group: '*'
+          - name: management
+            namespace: argocd
+            additionalLabels: {}
+            additionalAnnotations: {}
+            finalizers:
+              - resources-finalizer.argocd.argoproj.io
+            description: for management resources.
+            sourceRepos:
+              - '*'
+            destinations:
+              - server: https://kubernetes.default.svc
+                name: '*'
+                namespace: '*'
+            clusterResourceWhitelist:
+              - kind: '*'
+                group: '*'
+          - name: examples
+            namespace: argocd
+            additionalLabels: {}
+            additionalAnnotations: {}
+            finalizers:
+              - resources-finalizer.argocd.argoproj.io
+            description: for example resources.
+            sourceRepos:
+              - '*'
+            destinations:
+              - server: https://kubernetes.default.svc
+                name: '*'
+                namespace: '*'
+            clusterResourceWhitelist:
+              - kind: '*'
+                group: '*'
+          - name: observability
+            namespace: argocd
+            additionalLabels: {}
+            additionalAnnotations: {}
+            finalizers:
+              - resources-finalizer.argocd.argoproj.io
+            description: for example resources.
+            sourceRepos:
+              - '*'
+            destinations:
+              - server: https://kubernetes.default.svc
+                name: '*'
+                namespace: '*'
+            clusterResourceWhitelist:
+              - kind: '*'
+                group: '*'
+          - namespace: security
+            additionalLabels: {}
+            additionalAnnotations: {}
+            finalizers:
+              - resources-finalizer.argocd.argoproj.io
+            description: for security resources.
+            sourceRepos:
+              - '*'
+            destinations:
+              - server: https://kubernetes.default.svc
+                name: '*'
+                namespace: '*'
+            clusterResourceWhitelist:
+              - kind: '*'
+                group: '*'
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
