@@ -8,27 +8,11 @@ spec:
     server: "https://kubernetes.default.svc"
   source:
     repoURL: "https://argoproj.github.io/argo-helm"
-    targetRevision: 1.4.1
+    targetRevision: 1.6.1
     chart: argocd-apps
     helm:
       values: |
         projects:
-          - name: argocd
-            namespace: argocd
-            additionalLabels: {}
-            additionalAnnotations: {}
-            finalizers:
-              - resources-finalizer.argocd.argoproj.io
-            description: for argocd resources.
-            sourceRepos:
-              - '*'
-            destinations:
-              - server: https://kubernetes.default.svc
-                name: '*'
-                namespace: argocd
-            clusterResourceWhitelist:
-              - kind: '*'
-                group: '*'
           - name: management
             namespace: argocd
             additionalLabels: {}
@@ -77,7 +61,8 @@ spec:
             clusterResourceWhitelist:
               - kind: '*'
                 group: '*'
-          - namespace: security
+          - name: security
+            namespace: argocd
             additionalLabels: {}
             additionalAnnotations: {}
             finalizers:
