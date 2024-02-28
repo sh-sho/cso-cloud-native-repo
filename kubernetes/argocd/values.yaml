@@ -1,0 +1,14 @@
+server:
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: prod-issuer
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    ingressClassName: nginx
+    hosts:
+      - argocd.csotenant.net
+    tls:
+      - secretName: argocd-cso-tls-secret
+        hosts:
+          - argocd.csotenant.net
