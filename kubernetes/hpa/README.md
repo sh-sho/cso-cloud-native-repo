@@ -1,5 +1,11 @@
 # hpa walk through
 
+## prerequire
+
+install metrics server: [cso-cloud-native-repo/kubernetes/argocd-apps/metrics-server.yaml](../argocd-apps/metrics-server.yaml)
+
+## walk through
+
 ```sh
 kubectl apply -f https://k8s.io/examples/application/php-apache.yaml -n example
 ```
