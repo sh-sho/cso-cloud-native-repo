@@ -1,0 +1,50 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: viewer
+  labels:
+    app: viewer
+spec:
+  type: ClusterIP
+  selector:
+    app: viewer
+  ports:
+    - name: tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: viewer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: viewer
+  template:
+    metadata:
+      labels:
+        app: viewer
+        version: v1
+    spec:
+      serviceAccountName: viewer
+      automountServiceAccountToken: true
+      containers:
+        - name: viewer
+          image: <region-key>.ocir.io/orasejapan/<prefix>/workload-identity:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: OCI_RESOURCE_PRINCIPAL_VERSION
+              value: "2.2"
+            - name: OCI_RESOURCE_PRINCIPAL_REGION
+              value: "<your-region>"
+            - name: NAMESPACE
+              value: <your-namespace>
+            - name: COMPARTMENT_ID
+              value: <your-compartment-id>
+            - name: OCI_GO_SDK_DEBUG
+              value: info
