@@ -1,0 +1,9 @@
+{
+    "compartmentId": "<compartment-id>",
+    "description": "Policy for OKE Workload Identity.",
+    "name": "workload-identity-policy",
+    "statements": [
+        "Allow any-user to manage buckets in tenancy where all {request.principal.type = 'workload', request.principal.cluser_id = '<oke-cluster-id>', request.principal.namespace = 'example', request.principal.service_account = 'admin'}",
+        "Allow any-user to read buckets in tenancy where all {request.principal.type = 'workload', request.principal.cluser_id = '<oke-cluster-id>', request.principal.namespace = 'example', request.principal.service_account = 'viewer'}"
+    ]
+}
