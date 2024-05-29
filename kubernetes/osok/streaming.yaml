@@ -1,0 +1,13 @@
+apiVersion: oci.oracle.com/v1beta1
+kind: Stream
+metadata:
+  name: cso-stream
+  namespace: oci
+spec:
+  name: cso-stream
+  # compartmentId: ocid1.compartment.oc1..aaaaaaaac5t2rwhyzq6fm6pepwdn6gc434ymir7sgvh4ac4sd5sre4altoka
+  partitions: 1
+  retentionInHours: 24
+  streamPoolId: ocid1.streampool.oc1.uk-london-1.amaaaaaassl65iqaxzailj7sqi6j5y2getrkt7wd3dxxjfgz76sy662k2ibq
+  freeformTags:
+    created-by: osok
